@@ -148,6 +148,8 @@ class ManPageCommand(TextCommand, ProcessListener):
         if sys.platform == "win32":
             # check if wsl is available
             shell_cmd = 'bash -c \'man --pager=cat {}\''.format(input_string)
+        elif sys.platform == "darwin":
+            shell_cmd = 'man ' + input_string
         else:
             shell_cmd = 'man --pager=cat ' + input_string
         self.input_string = input_string
@@ -156,5 +158,5 @@ class ManPageCommand(TextCommand, ProcessListener):
 
     def run(self, edit):
         window = self.view.window()
-        window.show_input_panel("Man page search:", "",
+        window.show_input_panel("Man page search:", sublime.get_clipboard(),
                                  self.on_done, None, None)
